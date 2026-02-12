@@ -1,0 +1,110 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+@use 'themes/light' as custom-light;
+@use 'themes/dark' as custom-dark;
+
+/* Apply custom color themes (overrides gem defaults) */
+html {
+  @media (prefers-color-scheme: light) {
+    &:not([data-mode]),
+    &[data-mode='light'] {
+      @include custom-light.styles;
+    }
+
+    &[data-mode='dark'] {
+      @include custom-dark.styles;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:not([data-mode]),
+    &[data-mode='dark'] {
+      @include custom-dark.styles;
+    }
+
+    &[data-mode='light'] {
+      @include custom-light.styles;
+    }
+  }
+}
+
+/* Custom Typography: Fira Sans (body + headings) + Fira Mono (code) */
+
+$font-body: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-heading: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-code: 'Fira Mono', Consolas, Monaco, 'Courier New', monospace;
+
+body {
+  font-family: $font-body;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--heading-color);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+code, pre, kbd, samp,
+.highlight {
+  font-family: $font-code;
+}
+
+p {
+  margin-bottom: 1.25rem;
+}
+
+strong, b {
+  font-weight: 600;
+}
+
+#mode-toggle {
+  margin-right: 1rem;
+}
+
+#sidebar ul li.nav-item a.nav-link:hover {
+  color: #ffc600;
+}
+
+html[data-mode='light'] #sidebar ul li.nav-item a.nav-link:hover,
+html[data-mode='light'] #sidebar .sidebar-bottom a:hover,
+html[data-mode='light'] #sidebar .sidebar-bottom #mode-toggle:hover {
+  color: #000000;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]) #sidebar ul li.nav-item a.nav-link:hover,
+  html:not([data-mode]) #sidebar .sidebar-bottom a:hover,
+  html:not([data-mode]) #sidebar .sidebar-bottom #mode-toggle:hover {
+    color: #000000;
+  }
+}
+
+figcaption {
+  display: none;
+}
+
+.breadcrumb {
+  display: none;
+}
+
+footer {
+  text-align: right;
+}

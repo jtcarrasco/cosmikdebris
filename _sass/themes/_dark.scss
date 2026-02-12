@@ -1,0 +1,325 @@
+/*
+ * Cobalt2 Dark Theme for Chirpy
+ * Based on Wes Bos Cobalt2: https://github.com/wesbos/cobalt2
+ */
+
+@mixin styles {
+  color-scheme: dark;
+
+  /* Framework color */
+  --main-bg: #193549;
+  --mask-bg: #0d3a58;
+  --main-border-color: #0d3a58;
+
+  /* Common color */
+  --text-color: #ffffff;
+  --text-muted-color: #8ba4b8;
+  --text-muted-highlight-color: #b0c8dc;
+  --heading-color: #ffffff;
+  --label-color: #8ba4b8;
+  --blockquote-border-color: #0d3a58;
+  --blockquote-text-color: #8ba4b8;
+  --link-color: #0088ff;
+  --link-underline-color: #0d3a58;
+  --button-bg: #122a3a;
+  --btn-border-color: #0d3a58;
+  --btn-backtotop-color: #ffc600;
+  --btn-backtotop-border-color: #0d3a58;
+  --card-header-bg: #122a3a;
+  --checkbox-color: #0088ff;
+  --checkbox-checked-color: #ffc600;
+  --img-bg: radial-gradient(circle, #15232d 0%, #193549 100%);
+  --shimmer-bg: linear-gradient(
+    90deg,
+    rgb(25 53 73 / 0%) 0%,
+    rgb(13 58 88 / 40%) 50%,
+    rgb(25 53 73 / 0%) 100%
+  );
+
+  /* Sidebar */
+  --site-title-color: #ffc600;
+  --site-subtitle-color: #8ba4b8;
+  --sidebar-bg: #122a3a;
+  --sidebar-border-color: #0d3a58;
+  --sidebar-muted-color: #ffffff;
+  --sidebar-active-color: #ffc600;
+  --sidebar-hover-bg: #0d3a58;
+  --sidebar-btn-bg: #15232d;
+  --sidebar-btn-color: #ffffff;
+  --avatar-border-color: #ffc600;
+
+  /* Topbar */
+  --topbar-bg: rgb(25 53 73 / 64%);
+  --topbar-text-color: #ffffff;
+  --search-border-color: #0d3a58;
+  --search-icon-color: #0088ff;
+  --input-focus-border-color: #0088ff;
+
+  /* Home page */
+  --post-list-text-color: #b0c8dc;
+  --btn-patinator-text-color: #ffffff;
+  --btn-paginator-hover-color: #0d3a58;
+
+  /* Posts */
+  --toc-highlight: #ffc600;
+  --toc-popup-border-color: #0d3a58;
+  --tag-hover: #0d3a58;
+  --tb-odd-bg: #15232d;
+  --tb-even-bg: #193549;
+  --tb-border-color: #0d3a58;
+  --footnote-target-bg: #0d3a58;
+  --btn-share-color: #0088ff;
+  --btn-share-hover-color: #ffc600;
+  --card-bg: #122a3a;
+  --card-hover-bg: #0d3a58;
+  --card-shadow: rgb(10 20 30 / 72%) 0 6px 18px 0,
+    rgb(13 58 88 / 24%) 0 0 0 1px;
+  --kbd-wrap-color: #0088ff;
+  --kbd-text-color: #ffffff;
+  --kbd-bg-color: #15232d;
+  --prompt-text-color: rgb(255 255 255 / 75%);
+  --prompt-tip-bg: rgb(58 217 0 / 20%);
+  --prompt-tip-icon-color: #3ad900;
+  --prompt-info-bg: rgb(0 136 255 / 20%);
+  --prompt-info-icon-color: #0088ff;
+  --prompt-warning-bg: rgb(255 157 0 / 20%);
+  --prompt-warning-icon-color: #ff9d00;
+  --prompt-danger-bg: rgb(255 0 136 / 20%);
+  --prompt-danger-icon-color: #ff0088;
+
+  /* Tags */
+  --tag-border: #0d3a58;
+  --tag-shadow: #15232d;
+  --dash-color: #0d3a58;
+  --search-tag-bg: #15232d;
+
+  /* Categories */
+  --categories-border: #0d3a58;
+  --categories-hover-bg: #0d3a58;
+  --categories-icon-hover-color: #ffc600;
+
+  /* Archive */
+  --timeline-node-bg: #0088ff;
+  --timeline-color: #0d3a58;
+  --timeline-year-dot-color: #ffc600;
+
+  /* Code highlight colors - Cobalt2 */
+  --language-border-color: #0d3a58;
+  --highlight-bg-color: #15232d;
+  --highlighter-rouge-color: #0088ff;
+  --highlight-lineno-color: #0088ff;
+  --inline-code-bg: #0d3a58;
+  --code-color: #ffffff;
+  --code-header-text-color: #0088ff;
+  --code-header-muted-color: #0d3a58;
+  --code-header-icon-color: #0088ff;
+  --clipboard-checked-color: #3ad900;
+  --filepath-text-color: #ffc600;
+
+  .light {
+    display: none;
+  }
+
+  /* Categories */
+  .categories.card,
+  .list-group-item {
+    background-color: var(--card-bg);
+  }
+
+  .categories {
+    .card-header {
+      background-color: var(--card-header-bg);
+    }
+
+    .list-group-item {
+      border-left: none;
+      border-right: none;
+      padding-left: 2rem;
+      border-color: var(--categories-border);
+
+      &:last-child {
+        border-bottom-color: var(--card-bg);
+      }
+    }
+  }
+
+  #archives li:nth-child(odd) {
+    background-image: linear-gradient(
+      to left,
+      #193549,
+      #15232d,
+      #15232d,
+      #15232d,
+      #193549
+    );
+  }
+
+  /* stylelint-disable-next-line selector-id-pattern */
+  #disqus_thread {
+    color-scheme: none;
+  }
+
+  /* --- Cobalt2 Syntax Highlighting --- */
+
+  .highlight .gp {
+    color: #0088ff;
+  }
+
+  .highlight table td {
+    padding: 5px;
+  }
+
+  .highlight table pre {
+    margin: 0;
+  }
+
+  .highlight,
+  .highlight .w {
+    color: #ffffff;
+    background-color: #15232d;
+  }
+
+  .highlight .err {
+    color: #15232d;
+    background-color: #ff0088;
+  }
+
+  .highlight .c,
+  .highlight .ch,
+  .highlight .cd,
+  .highlight .cm,
+  .highlight .cpf,
+  .highlight .c1,
+  .highlight .cs {
+    color: #0088ff;
+  }
+
+  .highlight .cp {
+    color: #ff9d00;
+  }
+
+  .highlight .nt {
+    color: #ff9d00;
+  }
+
+  .highlight .o,
+  .highlight .ow {
+    color: #ffffff;
+  }
+
+  .highlight .p,
+  .highlight .pi {
+    color: #ffffff;
+  }
+
+  .highlight .gi {
+    color: #3ad900;
+  }
+
+  .highlight .gd {
+    color: #ff0088;
+    background-color: rgb(255 0 136 / 10%);
+  }
+
+  .highlight .gh {
+    color: #0088ff;
+    background-color: #15232d;
+    font-weight: bold;
+  }
+
+  .highlight .k,
+  .highlight .kn,
+  .highlight .kp,
+  .highlight .kr,
+  .highlight .kv {
+    color: #ffc600;
+  }
+
+  .highlight .kc {
+    color: #ff9d00;
+  }
+
+  .highlight .kt {
+    color: #ff9d00;
+  }
+
+  .highlight .kd {
+    color: #ffc600;
+  }
+
+  .highlight .s,
+  .highlight .sb,
+  .highlight .sc,
+  .highlight .dl,
+  .highlight .sd,
+  .highlight .s2,
+  .highlight .sh,
+  .highlight .sx,
+  .highlight .s1 {
+    color: #3ad900;
+  }
+
+  .highlight .sa {
+    color: #ffc600;
+  }
+
+  .highlight .sr {
+    color: #9d00ff;
+  }
+
+  .highlight .si {
+    color: #ff9d00;
+  }
+
+  .highlight .se {
+    color: #ff9d00;
+  }
+
+  .highlight .nn {
+    color: #ff9d00;
+  }
+
+  .highlight .nc {
+    color: #ffc600;
+  }
+
+  .highlight .no {
+    color: #ff9d00;
+  }
+
+  .highlight .na {
+    color: #0088ff;
+  }
+
+  .highlight .m,
+  .highlight .mb,
+  .highlight .mf,
+  .highlight .mh,
+  .highlight .mi,
+  .highlight .il,
+  .highlight .mo,
+  .highlight .mx {
+    color: #3ad900;
+  }
+
+  .highlight .ss {
+    color: #3ad900;
+  }
+
+  .highlight .nf,
+  .highlight .fm {
+    color: #ffc600;
+  }
+
+  .highlight .nv,
+  .highlight .vc,
+  .highlight .vg,
+  .highlight .vi,
+  .highlight .vm {
+    color: #0088ff;
+  }
+
+  .highlight .nd {
+    color: #9d00ff;
+  }
+}

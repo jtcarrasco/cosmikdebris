@@ -4,5 +4,8 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
+I'm Jason, a technology enthusiast with a passion for building, breaking, and learning.
+
+My professional work lives at [jtcarrasco.com](https://jtcarrasco.com), but this site? This is where the fun stuff happens—my maker projects, Linux adventures, hardware hacks, and experimental tech musings that spark my curiosity.
+
+Consider it a living document of my journey through the wonderful chaos of technology—the successes, the failures, and everything in between.
