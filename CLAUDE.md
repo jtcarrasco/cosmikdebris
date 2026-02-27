@@ -20,6 +20,7 @@ bundle install
 
 # Direct Jekyll
 bundle exec jekyll serve -l          # Dev server with live reload
+bundle exec jekyll serve -l --drafts # Dev server with live reload + drafts
 bundle exec jekyll build             # Production build
 JEKYLL_ENV=production bundle exec jekyll build  # Full production build
 
