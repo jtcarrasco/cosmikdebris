@@ -6,7 +6,7 @@ tags: [introduction, about, maker, linux]
 author: jason
 pin: true
 image:
-  path: /assets/img/posts/workshop.jpg
+  path: /assets/img/posts/welcome-to-cosmikdebris.jpg
   alt: Cosmik Debris logo
 ---
 

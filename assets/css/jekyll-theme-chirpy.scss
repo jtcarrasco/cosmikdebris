@@ -97,6 +97,24 @@ html[data-mode='light'] #sidebar .sidebar-bottom #mode-toggle:hover {
   }
 }
 
+/* Post preview images: match 16:9 source images (vs. Chirpy default 40:21) */
+.preview-img {
+  aspect-ratio: 16 / 9;
+}
+
+/* Homepage card images: fill column edge-to-edge */
+#post-list .card .col-md-5 {
+  padding: 0;
+  overflow: hidden;
+}
+
+#post-list .card .col-md-5 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
 figcaption {
   display: none;
 }

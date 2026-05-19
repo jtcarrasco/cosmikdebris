@@ -6,7 +6,7 @@ tags: [jekyll, ai, claude, web-dev, workflow, learning]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/robots.jpg
+  path: /assets/img/posts/building-a-jekyll-site.jpg
   alt: Robots & Cosmik Debris logo
 ---
 
