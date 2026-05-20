@@ -102,6 +102,10 @@ html[data-mode='light'] #sidebar .sidebar-bottom #mode-toggle:hover {
   aspect-ratio: 16 / 9;
 }
 
+.preview-img img {
+  border: 8px solid rgb(209, 201, 189);
+}
+
 /* Homepage card images: fill column edge-to-edge */
 #post-list .card .col-md-5 {
   padding: 0;
