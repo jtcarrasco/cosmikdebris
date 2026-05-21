@@ -75,6 +75,8 @@ You'll need a Google Cloud project with the Gmail API enabled. This is the burea
 
 **Scopes needed:** `gmail.readonly` and `gmail.modify` (can trash and read, no permanent delete. Gmail keeps a 30-day undo window)
 
+These are my scopes as a web developer — read access for the briefing, modify for bulk trash and mark-read. I don't need to permanently delete anything; the 30-day trash window is enough of a safety net. If your use case is different (say, you want to auto-archive instead of trash, or you need to send via the API), adjust accordingly. The [Gmail API scopes reference](https://developers.google.com/gmail/api/auth/scopes) lists everything available.
+
 Run the auth flow once to get a token:
 
 ```bash
