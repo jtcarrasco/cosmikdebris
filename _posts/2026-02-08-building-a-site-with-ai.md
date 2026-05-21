@@ -1,5 +1,5 @@
 ---
-title: "Building a Jekyll Site with AI: My First Experiment"
+title: "I Let an AI Help Me Build This Blog, and Now I Have Opinions About It"
 date: 2026-02-08 10:00:00 -0800
 categories: [Web Development, AI]
 tags: [jekyll, ai, claude, web-dev, workflow, learning]
@@ -10,99 +10,96 @@ image:
   alt: Robots & Cosmik Debris logo
 ---
 
-## A Different Kind of Build Process
+## The site you're reading right now shouldn't exist yet.
 
-This site you're reading right now represents a first for me: building a website by collaborating with AI. Not just using AI to generate a snippet here or fix a bug there, but actively working with Claude to architect the documentation structure, plan the workflow, and establish the foundation of this Jekyll blog.
+Not because it's bad (I hope it isn't) but because I've started approximately seven personal blogs in my life and abandoned all of them somewhere between "configure the theme" and "write the first real post." The setup always ate the momentum.
 
-I'll be honest—I wasn't sure what to expect. Would it feel like I was just delegating work? Would I learn anything? Would the result feel authentic to what I wanted? Spoiler: it turned out to be more collaborative and educational than I anticipated.
+This time I tried something different: I built it in collaboration with [Claude Code](https://claude.ai/code). Not just "ask AI to fix a bug" but the whole thing: architecture decisions, documentation structure, the color scheme, the workflow I'll actually use to keep writing. I wanted to see if having a collaborator who never gets tired of talking through details would change the trajectory from "abandoned in February" to something sustainable.
 
-## Why This Approach?
+Reader, I published this post. So something worked.
 
-I've built hundreds of websites before, but this time I wanted to try something different. I had a clear vision for what I wanted—a personal blog using Jekyll and the Chirpy theme, hosted on GitHub Pages—but I was curious whether working with AI could streamline the setup process and help me establish good documentation practices from the start.
+## The setup I actually wanted
 
-The traditional approach would have been: dive into the Chirpy documentation, set up the site, start writing posts, and maybe (probably not) create some documentation files later. Instead, I flipped it: start with the documentation structure, work with AI to organize my thinking, and build a system that would make future work easier.
+The goal was clear enough: personal blog, [Jekyll](https://jekyllrb.com/) with the [Chirpy theme](https://github.com/cotes2046/jekyll-theme-chirpy), hosted on [GitHub Pages](https://pages.github.com/), Cosmik Pulp color scheme. I've built hundreds of WordPress sites for clients. Static site generators are different: less infrastructure to maintain, more configuration to understand. I wanted to understand it, not just copy-paste until it worked.
 
-## The Documentation-First Approach
+The traditional path: dive into Chirpy's docs, configure the site, figure out the weird parts as you hit them, write a post someday. Maybe document things later. (Narrator: he did not document things later.)
 
-One of the first things Claude and I worked on was creating a documentation system. Rather than just having a Jekyll site with posts, I wanted a separate documentation folder that would serve as my "mission control" for the project.
+Instead I flipped it. Start with the documentation system, build the workflow first, then let the content follow.
 
-We created several key files:
+## Why document anything before you have content?
 
-**claude.md** - The main reference document with project overview, technical stack, and common tasks. Think of it as the README for how I work with Claude on this project.
+Because future me is a different person with no memory of why past me made any particular decision. This is not a metaphor — I genuinely cannot tell you why I made half the configuration choices in my last three projects without digging through git history like an archaeologist.
 
-**workflow.md** - Git workflow, branch naming conventions, and pre-publish checklists. This one has already saved me from forgetting steps.
+Working with Claude to build documentation files *while* making the decisions meant I captured the reasoning at the moment I had it. We created five files before I wrote a single post:
 
-**content.md** - Blog post planning, drafts, content calendar, and writing guidelines. My ideas backlog lives here.
+**claude.md** — Project overview, technical stack, common tasks. The briefing document for every future session where I say "remind me how this works."
 
-**tags.md** - Tag taxonomy and management. Sounds boring, but having consistent tagging from the start matters.
+**workflow.md** — Git conventions, branch naming, pre-publish checklist. Already saved me from forgetting steps twice.
 
-**design.md** - Design customization specs, including my Cosmik Pulp color scheme choices and typography system.
+**content.md** — Post backlog, ideas, writing guidelines. The holding tank where half-formed thoughts live until they become real posts.
 
-This might seem like overkill for a personal blog, but here's what I learned: having these files means I don't have to remember everything. Future me (and Claude, in future sessions) can reference these documents to understand decisions, maintain consistency, and pick up where we left off.
+**tags.md** — Taxonomy. Sounds tedious; turns out consistent tagging from the start is much easier than fixing it after 50 posts.
 
-## The Collaboration Workflow
+**design.md** — The Cosmik Pulp color scheme documentation, font choices, override file locations. So when I want to tweak something in six months, I know which file to touch.
 
-Working with AI on this project wasn't about just asking for code and copying it. It was more of a conversation. Here's how it typically went:
+This might seem like overkill for a blog that had zero posts. But here's the thing: I actually did it, because Claude helped me do it immediately rather than later. And "actually did it" beats "planned to do it" every time.
 
-**Me:** "I want to use the Chirpy theme and customize it with Cosmik Pulp colors."
+## What the collaboration actually felt like
 
-**Claude:** "Here's how Chirpy's structure works, here are the files you'll need to modify, and here's the CSS for Cosmik Pulp colors. Should we create a design.md file to document this?"
+Not what I expected. I expected to feel like I was delegating work to a very fast intern. It was more like thinking out loud with someone who retained everything and had read the Chirpy documentation more carefully than I was going to.
 
-**Me:** "Yes, and let's add a checklist for testing the changes."
+The pattern that emerged:
 
-**Claude:** *Creates design.md with implementation plan, code snippets, and testing checklist*
+**Me:** "I want to customize the colors with the Cosmik Pulp scheme."
 
-The AI wasn't just generating content—it was helping me think through the structure, asking good questions, and suggesting best practices I might not have considered. When I wanted to add something, Claude would often suggest how it fit into the existing documentation structure.
+**Claude:** "Here's how Chirpy's sass override structure works, these are the files you'll need, here's the CSS. Should we document this in design.md?"
 
-## What Worked Really Well
+**Me:** "Yes, and add a checklist for testing the changes so I don't break the dark theme."
 
-**Structured thinking**: Having to explain what I wanted to an AI made me clarify my own thinking. Vague ideas became concrete requirements.
+And then it existed. Implementation plan, code snippets, testing checklist, all in one place. The friction cost of doing it right was lower than the friction cost of skipping it.
 
-**Documentation discipline**: Normally I'd skip documentation until later (read: never). Having Claude help create it made the barrier to entry lower.
+What actually worked:
 
-**Pattern recognition**: Claude picked up on the conventions I was establishing and maintained consistency across files. Branch naming, tag structure, front matter format—once we established a pattern, it stuck.
+**Structured thinking.** Having to explain what I wanted made me clarify it to myself. Vague intentions became concrete requirements. "I want it to feel technical but not cold" became actual color values and font pairings.
 
-**Learning opportunity**: Because Claude explained why certain approaches made sense for Jekyll, GitHub Pages, and the Chirpy theme, I learned the reasoning behind the structure, not just the structure itself.
+**Documentation discipline.** The barrier to writing it down dropped to nearly zero when I could think through it out loud and have it captured automatically. I am not naturally a documenter. I am now, accidentally.
 
-## What Was Challenging
+**Pattern consistency.** Once we established conventions (front matter format, tag structure, branch naming) they stuck. Claude picked them up from context and maintained them without reminders. This is a small thing that matters a lot over time.
 
-**Context retention**: In longer sessions, I sometimes had to remind Claude of decisions we'd made earlier. This is where having documentation files helped—we could reference what we'd written.
+**Actual learning.** Because Claude explained the *why* behind Jekyll's structure and Chirpy's override system, I understood the thing I'd built. When something breaks later, I'll have a model for debugging it instead of just poking at files until it works.
 
-**Knowing what to ask**: The quality of the output depended heavily on how well I articulated what I wanted. This got easier with practice.
+What was harder than expected:
 
-**Trust but verify**: I still needed to understand what was being created. AI can be confidently wrong, so I reviewed everything and made sure it matched my understanding of Jekyll and the Chirpy theme.
+**Context across sessions.** In longer conversations, I sometimes had to re-establish decisions from earlier. The documentation files helped with this — we'd reference what we'd written instead of reconstructing it from memory. But it's still friction.
 
-## The Markdown Structure
+**Knowing what to ask.** The output quality tracked directly with how clearly I articulated the goal. "Make me a blog" produces something generic. "A blog with this aesthetic, this audience, this workflow constraint" produces something useful. This got easier with practice, but there's a skill to it.
 
-The heart of this system is simple: organized markdown files for different concerns. Each file serves a specific purpose:
+**Staying skeptical.** AI can be confidently wrong. Jekyll and Chirpy have specific opinions about file locations and override behavior, and not every suggestion was right on the first pass. I needed to verify against the actual Chirpy docs when something didn't behave as described. Trust but verify is not optional.
 
-- Reference files (claude.md) for "what is this project"
-- Workflow files (workflow.md) for "how do I do things"
-- Planning files (content.md) for "what am I working on"
-- Specification files (design.md) for "how should this look/work"
+## The part that surprised me most
 
-This separation means I can find information quickly, and Claude can reference the relevant file for context. It's not revolutionary—it's just good organization—but having AI help set it up meant I actually did it instead of procrastinating.
+After a few hours of this, I had a site that worked the way I wanted, documentation I could actually use, and a workflow I understood end to end. More importantly, I had enough momentum to keep going.
 
-## Lessons for Others
+That last part is the thing I'd underestimated. Previous blogs died during setup because setup is boring and momentum is fragile. Having a collaborator who never got bored of the infrastructure details kept the energy on the parts that mattered: what I actually wanted to build, not configuration minutiae.
 
-If you're thinking about using AI to help build a Jekyll site (or any static site), here's what I'd suggest:
+It's not magic and it's not autopilot. It's closer to pair programming with someone who has infinite patience for tedious setup questions but needs you to remain the person who knows what you're actually trying to make.
 
-**Start with structure**: Before generating content or code, establish your documentation system. It pays dividends immediately.
+## If you want to try this
 
-**Be specific**: "Make me a blog" gets you generic results. "Create a Jekyll blog with Chirpy theme, Cosmik Pulp colors, focused on maker projects and Linux" gets you something useful.
+A few things I'd do the same way:
 
-**Iterate openly**: If something isn't right, say so. AI responds well to "that's close, but let's adjust X" or "I like option 2 better than option 1."
+**Start with the docs.** Before writing any content or pushing any code, spend 30 minutes on the documentation structure. What decisions will you make? Where will you capture them? Do this while the project is small enough that it takes 30 minutes instead of three hours.
 
-**Document decisions**: As you make choices, capture them. Future you will thank present you.
+**Be specific.** "Jekyll blog with Chirpy theme, Cosmik Pulp color scheme, audience is homelab builders and makers, posts about Linux and maker projects." That's useful. "Personal blog" is not useful.
 
-**Understand the output**: Don't just copy-paste. Make sure you understand why the AI suggested what it did. Ask questions.
+**Iterate openly.** "That's close but wrong — let's adjust X" works better than accepting the first version and working around it. Say what's off. The second or third attempt is usually right.
 
-## What's Next
+**Understand what you're building.** Don't just accept generated code. Ask why. Make sure the output matches your mental model of the tool. This protects you when things break later, and things will break later.
 
-Now that the foundation is in place, I'm excited to fill this site with actual content about the projects I'm working on. The documentation system is there to support that work, not get in the way of it.
+---
 
-And who knows? Maybe in a few months I'll write a follow-up about what I learned after actually using this system for a while. For now, I'm calling this experiment a success.
+The foundation is in place. Now comes the part I actually wanted to get to: writing about the projects I'm working on.
 
-If you're curious about using AI in your own projects, I'd encourage you to try it. Start small, be clear about what you want, and don't be afraid to iterate. You might be surprised at what you can build together.
+Which, given that you're reading this, seems to be going okay.
 
 — Jason
