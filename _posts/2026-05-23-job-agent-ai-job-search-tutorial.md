@@ -1,5 +1,5 @@
 ---
-title: "I Made Job Searching Tolerable by Handing It to an Agent"
+title: "I Made Job Searching Tolerable by Handing It to an Agent (My Sanity Thanks Me)"
 date: 2026-05-23 09:00:00 -0800
 categories: [AI, Tutorial]
 tags: [ai, claude, automation, job-search, homelab, tutorial]
