@@ -1,24 +1,30 @@
 ---
-title: "How to Build an AI Wiki Agent That Turns Articles Into a Compounding Knowledge Base"
+title: "I Built an AI That Reads the Internet So I Don't Have To (And Now I Actually Remember Things)"
 date: 2026-05-24 09:00:00 -0800
 categories: [AI, Tutorial]
 tags: [ai, claude, knowledge-management, obsidian, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/wiki-agent-knowledge-manager.jpg
-  alt: AI wiki agent for knowledge management
+  path: /assets/img/posts/wiki-agent-knowledge-management.jpg
+  alt: AI wiki agent for knowledge management with Obsidian
 ---
 
-A step-by-step guide to building an AI agent that reads articles and YouTube videos, extracts concepts and entities, and builds a structured, interlinked wiki in your Obsidian vault — automatically.
+Here's my workflow before this project: read an interesting article, think "I should remember this," immediately forget everything in it, open a new tab, repeat until my browser looks like a hoarder's garage. I had bookmarks folders with names like "Read Later" that I hadn't opened since 2019. Good stuff in there, probably. Who knows.
 
-**What you'll end up with:** A growing wiki where every new article you queue is automatically integrated — summaries, concept pages, entity pages, cross-references, and a weekly health check.
+The problem isn't finding content. The firehose is wide open. The problem is that reading something and retaining it are two completely different activities, and I was only doing one of them.
 
-**Prerequisites:** Claude Code CLI, Obsidian vault, Syncthing or another sync tool, `yt-dlp` installed (for YouTube support).
+So I built an agent that does the retention part for me.
+
+**What you'll end up with:** Drop a URL in a folder from your phone. Within 5 minutes, your vault has a summary, extracted concepts, entity pages, and cross-references to everything else you've ever queued. The wiki gets smarter every time you add something. You get to feel like a genius without doing the work.
+
+**Prerequisites:** [Claude Code CLI](https://claude.ai/code), [Obsidian](https://obsidian.md/) vault, [Syncthing](https://syncthing.net/) (or similar sync), [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) for YouTube support.
 
 ---
 
 ## Step 1: Set Up the Directory Structure
+
+First, we need some folders. Thrilling, I know, but the structure matters because the agent uses it to find things.
 
 ```bash
 # Agent folder
@@ -29,7 +35,12 @@ mkdir -p ~/vault/Resources/Wiki/{sources,concepts,entities}
 mkdir -p ~/vault/Inbox/wiki_queue/processed
 ```
 
-Create the initial index and log:
+Three types of wiki pages live here:
+- **sources/**: one page per article or video. The "I read this" receipts.
+- **concepts/**: ideas that keep showing up across multiple sources. When three different articles all mention "context windows," that becomes a concept page.
+- **entities/**: specific things: tools, people, companies. The nouns.
+
+Create the index and log files that the agent will keep updated:
 
 ```bash
 cat > ~/vault/Resources/Wiki/index.md << 'EOF'
@@ -56,6 +67,8 @@ touch ~/vault/Resources/Wiki/log.md
 ---
 
 ## Step 2: Write the Agent Instructions (CLAUDE.md)
+
+This is the agent's operating manual. Think of it as the job description you wish you could give every person who's ever tried to "help" you organize something.
 
 Create `~/vault/Projects/Agents/wiki_agent/CLAUDE.md`:
 
@@ -115,11 +128,13 @@ Append summary to log.md.
 - Always update index.md and log.md on every run
 ```
 
+The key lines are the output rules at the bottom. "Never overwrite wiki pages: update in place" is the difference between a wiki that accumulates knowledge and one that rewrites itself into amnesia every time it runs.
+
 ---
 
 ## Step 3: Create the Queue File Format
 
-The queue directory (`Inbox/wiki_queue/`) accepts `.md` or `.txt` files containing URLs. Any format works:
+The queue is beautifully low-tech. It's just a folder. Drop a `.md` or `.txt` file in it with one or more URLs and the agent handles the rest.
 
 ```
 # Queue file: ai-articles.md
@@ -128,11 +143,15 @@ https://example.com/article-about-llms
 https://www.youtube.com/watch?v=VIDEO_ID
 ```
 
-One URL per line. Multiple URLs per file. Drop the file in the folder and Syncthing pushes it to the VPS.
+Bare URLs, markdown links, mixed: all fine. One URL per line, as many URLs per file as you want. When Syncthing pushes it to your VPS, the cron job picks it up within 5 minutes and it's gone from the queue, processed, moved to `processed/`, and living in your wiki.
+
+No app. No browser extension. No "save for later" button that leads to a digital purgatory. Just a text file.
 
 ---
 
-## Step 4: Install yt-dlp (for YouTube support)
+## Step 4: Install yt-dlp (for YouTube Support)
+
+Because apparently a lot of good information is locked inside people talking at cameras for 45 minutes. The agent uses `yt-dlp` to pull the auto-generated transcript and treats it like an article.
 
 ```bash
 pip install yt-dlp
@@ -140,19 +159,22 @@ pip install yt-dlp
 sudo apt install yt-dlp
 ```
 
-Test it:
+Test it with a classic:
+
 ```bash
 yt-dlp --skip-download --write-auto-subs --sub-langs en --convert-subs srt \
   -o "/tmp/wiki-test-%(id)s.%(ext)s" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 ```
 
-If a `.en.srt` file appears in `/tmp`, it's working.
+If a `.en.srt` file appears in `/tmp`, it's working. (The test URL is Rick Astley, which means your knowledge base will now contain a page about `Never Gonna Give You Up`, the best possible first entry.)
+
+**If you use the [Obsidian Web Clipper](https://obsidian.md/clipper):** Clipping a YouTube page from your browser embeds the transcript directly into the saved markdown file. When Syncthing pushes that file to your VPS, the agent already has the transcript: no yt-dlp required for those clips. This is the easiest path if you're already clipping from a browser: the clipper does the work locally, the file arrives on the VPS ready to process. yt-dlp handles the cases where you're queueing bare URLs without going through a browser first.
 
 ---
 
 ## Step 5: Configure the Queue Auto-Trigger in the Dispatcher
 
-Add this block to your `dispatcher.sh` (before cleanup):
+Add this to your `dispatcher.sh` before the cleanup section. It checks whether anything's sitting in the queue folder and, if so, injects a trigger so the agent picks it up on the next cron run:
 
 ```bash
 WIKI_QUEUE="$HOME/vault/Inbox/wiki_queue"
@@ -166,7 +188,7 @@ if [ -f "$WIKI_TASK" ] && compgen -G "$WIKI_QUEUE"/*.md "$WIKI_QUEUE"/*.txt > /d
 fi
 ```
 
-Now dropping a file in `wiki_queue/` automatically triggers the agent within 5 minutes.
+The guard clause prevents double-triggering if you dump three files in at once. The agent runs once and processes all of them.
 
 ---
 
@@ -199,11 +221,13 @@ Now dropping a file in `wiki_queue/` automatically triggers the agent within 5 m
 ## Done
 ```
 
+This file is how you communicate with the agent. It's a markdown file with checkboxes. The cron job reads it. There is something deeply satisfying about triggering an automated AI system by editing a text file on your phone.
+
 ---
 
 ## Step 7: Set Up the Wiki Page Templates
 
-Source page template (the agent generates these, but this is the structure):
+The agent generates these pages automatically, but here's what a source page looks like so you know what you're getting:
 
 ```markdown
 ---
@@ -231,26 +255,32 @@ updated: YYYY-MM-DD
 [Original title and URL]
 ```
 
+The wikilinks (`[[concepts/concept-name]]`) are the magic. When the agent processes a new article and finds a concept that already has a page, it links to it. When it finds a new concept, it creates the page and back-links it to the source. Over time the graph gets dense in ways you didn't plan.
+
 ---
 
 ## Step 8: Test the Queue
 
-Drop a test file:
+Let's make sure this thing actually works before you trust it with anything important.
 
 ```bash
 echo "https://en.wikipedia.org/wiki/Knowledge_graph" > ~/vault/Inbox/wiki_queue/test.md
 ```
 
-Wait 5 minutes (or run the dispatcher manually). Check:
+Wait 5 minutes (or run the dispatcher manually). You should see:
 
-1. `Inbox/wiki_queue/processed/test.md` — queue file should be moved here
-2. `Resources/Wiki/sources/` — a new source page should exist
-3. `Resources/Wiki/index.md` — updated with the new source
-4. `Resources/Wiki/log.md` — entry appended
+1. `Inbox/wiki_queue/processed/test.md` — moved here, out of the queue
+2. `Resources/Wiki/sources/knowledge-graph.md` — new source page
+3. `Resources/Wiki/index.md` — updated with the entry
+4. `Resources/Wiki/log.md` — one line added
+
+If all four are true, you have a working wiki agent. Everything after this is just feeding it URLs.
 
 ---
 
 ## Step 9: Schedule the Weekly Lint
+
+The lint task is the agent auditing its own work. Every Sunday it checks for orphaned pages, missing cross-references, index gaps, and concept pages that only have one source (meaning they're not really concepts yet, just terms). It writes a report and leaves it in your wiki.
 
 Add to `wiki_agent/CLAUDE.md`:
 
@@ -259,28 +289,36 @@ Add to `wiki_agent/CLAUDE.md`:
 <!-- schedule: day=7, hour=10, task=Wiki lint -->
 ```
 
-Day 7 = Sunday. Hour 10 = 10:00 UTC. The dispatcher reads this and injects a lint trigger every Sunday at 10am UTC.
+Day 7 = Sunday. Hour 10 = 10am UTC. The dispatcher reads the schedule comment and injects a lint trigger automatically. You don't have to remember to run it, which is the whole point of all of this.
 
 ---
 
-## Using the Wiki in Obsidian
+## What It Looks Like After a Few Weeks
 
-Once populated, the wiki works best with:
-- **Graph view** — see how concepts and entities connect across sources
-- **Backlinks panel** — when reading any page, see what else references it
-- **Search** — find all pages mentioning a specific concept or entity
+The compounding effect kicks in around 10-15 sources. Before that it's mostly standalone pages. After that, the cross-references start doing work.
 
-The compounding effect becomes visible around 10-15 sources in. Concept pages start reflecting multiple perspectives. Entity pages accumulate context from different articles. Cross-references create paths you didn't plan for.
+A concept page like `[[concepts/retrieval-augmented-generation]]` might have 8 sources linked to it from different angles: an intro explainer, a paper, a practical implementation guide, a critical take. The entity page for `[[entities/anthropic]]` has notes from 12 different articles, each adding a different facet.
+
+Open the [Obsidian graph view](https://help.obsidian.md/Plugins/Graph+view) around that time. You'll see clusters forming that you didn't design. That's the compounding effect: the wiki knows things you didn't explicitly teach it, because patterns emerged from the sources.
+
+It's a weird and good feeling.
+
+**Three Obsidian features that pair well with a populated wiki:**
+- **Graph view**: the "oh wow" moment when you see the connections
+- **Backlinks panel**: when reading any page, see what else links to it
+- **Search**: `is:linked` to find orphaned pages; concept names to see how they spread
 
 ---
 
 ## Troubleshooting
 
-**Queue file not triggering:** Check that the dispatcher's queue check block is in the script and the file extension is `.md` or `.txt`.
+**Queue file isn't triggering:** Check that your dispatcher has the queue-check block and that the file extension is `.md` or `.txt`. The dispatcher reads for those extensions specifically.
 
-**YouTube transcript empty:** Some videos have auto-subs disabled. The agent falls back to WebFetch on the video URL if yt-dlp fails.
+**YouTube transcript is empty:** Some videos disable auto-subs. The agent falls back to WebFetch on the video URL, which at least gets the description and any transcript in the page itself.
 
-**Index getting stale:** Run a manual lint: add `- [ ] [trigger] Wiki lint` to the task list. The lint run rebuilds the index from the actual directory contents.
+**Index is stale:** Run a manual lint. Add `- [ ] [trigger] Wiki lint` to the task list. The lint rebuilds the index from actual directory contents, which fixes any gaps from interrupted runs.
+
+**The Rick Astley page is actually in your wiki:** You did the test correctly. Congratulations.
 
 ---
 
