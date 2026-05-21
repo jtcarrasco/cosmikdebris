@@ -1,5 +1,5 @@
 ---
-title: "Stop Managing Five Inboxes Like a Psychopath: A Gmail Hub Setup Guide"
+title: "Stop Managing Multiple Inboxes Like a Psychopath: A Gmail Hub Setup Guide"
 date: 2026-05-22 09:00:00 -0800
 categories: [Automation, Tutorial]
 tags: [email, automation, n8n, gmail, tutorial]
