@@ -1,5 +1,5 @@
 ---
-title: "I Made Claude Code Search Job Boards For Me (And Now I Actually Apply to Things)"
+title: "I Made Job Searching Tolerable by Handing It to an Agent"
 date: 2026-05-23 09:00:00 -0800
 categories: [AI, Tutorial]
 tags: [ai, claude, automation, job-search, homelab, tutorial]
