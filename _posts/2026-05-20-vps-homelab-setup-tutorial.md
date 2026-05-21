@@ -10,32 +10,34 @@ image:
   alt: VPS homelab with Tailscale and Docker
 ---
 
-This is a complete walkthrough for building a secure, always-accessible self-hosted stack on a cheap VPS — with no public ports exposed and every service reachable from any device.
+For years my homelab strategy was "open ports and hope for the best." I had services bound to `0.0.0.0`, a UFW config I vaguely remembered setting up once, and the distinct background anxiety of someone who has read too many breach postmortems. It worked, in the same way that a screen door works. Technically a door.
 
-**What you'll end up with:** A VPS running Docker containers behind Caddy, fully locked to a Tailscale network, with automatic TLS and zero port-forwarding required.
+Then I found a better way: lock everything behind [Tailscale](https://tailscale.com/), let [Caddy](https://caddyserver.com/) handle TLS, and never think about open ports again.
 
-**Prerequisites:** A VPS (Ubuntu 22.04+), a Tailscale account, basic Linux comfort.
+**What you'll end up with:** A VPS running [Docker](https://docs.docker.com/get-docker/) containers behind Caddy, fully locked to a Tailscale network, with automatic TLS and zero port-forwarding required.
+
+**Prerequisites:** A VPS ([Ubuntu](https://ubuntu.com/) 22.04+), a Tailscale account, basic Linux comfort.
 
 ---
 
 ## Step 1: Provision the VPS
 
-Any cheap VPS works. I use RackNerd — $20-30/year for a 1-2 vCPU, 2GB RAM node is enough for this stack.
+Any cheap VPS works. I use [RackNerd](https://www.racknerd.com/): $20-30/year for a 1-2 vCPU, 2GB RAM node handles this stack comfortably with room to spare.
 
-After provisioning, do basic hardening:
+After provisioning, do basic hardening before you do anything else. Yes, this part is less exciting than running services. Do it anyway.
 
 ```bash
 # Update packages
 apt update && apt upgrade -y
 
 # Create a non-root user
-adduser User
-usermod -aG sudo User
+adduser youruser
+usermod -aG sudo youruser
 
 # Set up SSH key auth (from your local machine)
-ssh-copy-id user@your-vps-ip
+ssh-copy-id youruser@your-vps-ip
 
-# Harden SSH — edit /etc/ssh/sshd_config or drop a file in /etc/ssh/sshd_config.d/
+# Harden SSH — drop a file in /etc/ssh/sshd_config.d/
 cat > /etc/ssh/sshd_config.d/60-hardening.conf << 'EOF'
 PasswordAuthentication no
 PermitRootLogin no
@@ -46,7 +48,7 @@ EOF
 systemctl restart sshd
 ```
 
-Install fail2ban:
+Install [fail2ban](https://www.fail2ban.org/). Three bad login attempts and it's a 24-hour ban, long enough to be annoying for attackers and short enough that you won't brick yourself if you mistype your password from a new device.
 
 ```bash
 apt install fail2ban -y
@@ -62,20 +64,24 @@ EOF
 systemctl enable --now fail2ban
 ```
 
+The `100.64.0.0/10` in `ignoreip` is Tailscale's subnet. Once you're on Tailscale, you'll never accidentally ban yourself again.
+
 ---
 
 ## Step 2: Install Tailscale
+
+This is the part that turns a standard VPS setup into something genuinely elegant.
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 tailscale up
 ```
 
-Follow the auth link to connect the VPS to your Tailscale account. Once connected, note your VPS Tailscale IP (e.g. `YOUR_TAILSCALE_IP`). This is the only IP your services will listen on.
+Follow the auth link to connect the VPS to your Tailscale account. Once connected, note your VPS Tailscale IP (something like `100.x.y.z`). This becomes the only IP your services will ever listen on (not the public IP, not localhost, just the Tailscale IP).
 
-Install Tailscale on every device you want to access your VPS from (MacBook, phone, etc.) and connect them to the same account.
+Install Tailscale on every device you want to access your homelab from (MacBook, phone, whatever), connect them to the same account.
 
-**Enable MagicDNS** in the Tailscale admin console — this gives your VPS a stable hostname like `your-machine.tail35225b.ts.net`.
+**Enable MagicDNS** in the [Tailscale admin console](https://login.tailscale.com/admin/dns). This gives your VPS a stable hostname like `your-machine.tail35225b.ts.net` that works from any of your devices. You'll use this hostname everywhere.
 
 ---
 
@@ -86,13 +92,13 @@ curl -fsSL https://get.docker.com | sh
 usermod -aG docker youruser
 ```
 
-Log out and back in for group membership to take effect.
+Log out and back in for the group membership to take effect. If you skip this step you'll be prefacing every Docker command with `sudo` and quietly resenting the tutorial that didn't warn you.
 
 ---
 
 ## Step 4: Set Up Caddy as a Reverse Proxy
 
-Caddy handles HTTPS automatically for your Tailscale domain. Create a project structure:
+Caddy handles HTTPS automatically for your Tailscale domain: no cert management, no Certbot renewals, no `let's encrypt rate limit exceeded` emails at 2am. It just works.
 
 ```bash
 mkdir -p ~/dev/docker/caddy
@@ -136,20 +142,20 @@ your-machine.tail35225b.ts.net:8083 {
 }
 ```
 
-Caddy will automatically provision TLS certificates for your Tailscale domain. Add a block per service.
+Caddy will automatically provision TLS certificates for your Tailscale domain. Adding a new service is just adding a new block here and reloading.
 
 Start it:
 ```bash
 docker compose -f caddy.yml up -d
 ```
 
-**Key point:** Note the `ports` binding to `YOUR_TAILSCALE_IP` — that's your Tailscale IP. Never bind to `0.0.0.0` or you'll expose services to the public internet.
+The critical thing in the compose file: `ports` is bound to `YOUR_TAILSCALE_IP`, not `0.0.0.0`. That one distinction is the entire security model. `0.0.0.0` means "anyone on the internet." `YOUR_TAILSCALE_IP` means "only devices on my Tailscale network." Never bind to `0.0.0.0` or you'll expose services to the public internet and undo all of step 1.
 
 ---
 
 ## Step 5: Add Services
 
-Each service gets its own directory and compose file. Example for n8n:
+Each service gets its own directory and compose file. They all join `proxy-net` so Caddy can reach them by container name. Here's [n8n](https://n8n.io/) as an example:
 
 ```bash
 mkdir -p ~/dev/docker/n8n
@@ -187,22 +193,25 @@ Start it:
 docker compose -f n8n.yml up -d
 ```
 
-Add the corresponding Caddy entry and reload: `docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
+Add the corresponding block to your Caddyfile, then reload Caddy without downtime:
+```bash
+docker exec caddy caddy reload --config /etc/caddy/Caddyfile
+```
 
-Repeat for each service. My full stack:
+Repeat this pattern for each service. My full stack at the moment (I use other stuff but I'm not telling):
 
-| Service | Port | Purpose |
-|---------|------|---------|
-| n8n | 8084 | Workflow automation |
-| FreshRSS | 8080 | RSS aggregator |
-| Uptime Kuma | 8083 | Site monitoring |
-| Glance | 8085 | Homelab dashboard |
+| Service                                                | Port | Purpose             |
+| ------------------------------------------------------ | ---- | ------------------- |
+| [n8n](https://n8n.io/)                                 | 8084 | Workflow automation |
+| [FreshRSS](https://freshrss.org/)                      | 8080 | RSS aggregator      |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | 8083 | Site monitoring     |
+| [Glance](https://github.com/glanceapp/glance)          | 8085 | Homelab dashboard   |
 
 ---
 
 ## Step 6: Lock Down UFW
 
-Restrict all dev ports to Tailscale's subnet:
+Belt and suspenders. The Tailscale IP binding already prevents external access, but UFW adds an explicit deny layer:
 
 ```bash
 ufw default deny incoming
@@ -215,11 +224,13 @@ ufw deny 8085
 ufw enable
 ```
 
-Or use Tailscale's built-in ACLs to control which devices can reach which services.
+Alternatively, use [Tailscale's ACL system](https://tailscale.com/kb/1018/acls/) to control which devices on your network can reach which services. That's worth exploring once the basics are solid.
 
 ---
 
 ## Step 7: Add Watchtower for Auto-Updates
+
+Running containers means you're running software that has CVEs and updates. [Watchtower](https://containrrr.dev/watchtower/) pulls new images nightly and removes the old ones:
 
 ```yaml
 services:
@@ -232,13 +243,13 @@ services:
     restart: unless-stopped
 ```
 
-This pulls updated images nightly at 3am and removes old ones.
+3am updates, automatic cleanup of old layers. Set it and forget it.
 
 ---
 
 ## Accessing Everything
 
-Once set up, every service is accessible at `https://your-machine.tail35225b.ts.net:PORT` from any device on your Tailscale network. No VPN to connect to — Tailscale handles it automatically in the background.
+Once set up, every service is accessible at `https://your-machine.tail35225b.ts.net:PORT` from any device on your Tailscale network. There's no VPN to manually connect. Tailscale runs in the background and handles it. Open your phone on a coffee shop's WiFi and your homelab dashboard loads like it's local.
 
 SSH access: `ssh youruser@your-machine.tail35225b.ts.net` or `ssh youruser@YOUR_TAILSCALE_IP`
 
@@ -246,11 +257,11 @@ SSH access: `ssh youruser@your-machine.tail35225b.ts.net` or `ssh youruser@YOUR_
 
 ## Troubleshooting
 
-**Service not reachable:** Check that the container is on `proxy-net` and Caddy's config has the right port.
+**Service not reachable:** Check that the container is on `proxy-net` (`docker network inspect proxy-net`) and that your Caddyfile block has the right upstream hostname and port.
 
-**TLS not working:** Make sure Tailscale MagicDNS is enabled and the hostname matches your Caddyfile.
+**TLS not working:** Make sure Tailscale MagicDNS is enabled in the admin console and that the hostname in your Caddyfile matches exactly. Caddy can't provision a cert for a hostname Tailscale doesn't recognize.
 
-**Port exposed publicly:** Check your `ports` binding — it must be `tailscale-ip:host-port:container-port`, not `host-port:container-port`.
+**Port exposed publicly:** Check your `ports` binding in the compose file. It must be `tailscale-ip:host-port:container-port`. If you see `host-port:container-port` without the IP prefix, it's bound to `0.0.0.0` and the whole internet can knock.
 
 ---
 
