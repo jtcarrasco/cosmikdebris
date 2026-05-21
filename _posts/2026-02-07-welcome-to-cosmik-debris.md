@@ -10,9 +10,9 @@ image:
   alt: Cosmik Debris logo
 ---
 
-## Welcome to the workshop.
+## Welcome to my workshop.
 
-I'm Jason. I build things with computers, most of which eventually work. This blog is where I write about the ones that do, the ones that don't, and the weird journey between the two.
+I'm Jason. I build things with computers, most of which eventually work...sometimes. This blog is where I write about the ones that do, the ones that don't, and the weird journey between the two.
 
 If you're looking for my professional portfolio, that's over at [jtcarrasco.com](https://jtcarrasco.com) (curated, professional, no embarrassing war stories). This is not that.
 
@@ -28,11 +28,11 @@ If you want to see how this site itself came together (it's a good story), check
 
 ## What lives here
 
-**Maker projects.** Build logs for whatever hardware project currently has my kitchen table held hostage. Full parts lists, what worked, what I had to order twice, and the lessons that only emerge after you've already made the mistake.
+**Maker projects.** Build logs for whatever hardware project currently has my garage workbench held hostage. Full parts lists, what worked, what I had to order twice, and the lessons that only emerge after you've already made the mistake.
 
-**Linux journey.** I live in the terminal and I'm not ashamed. Distro experiments, shell scripting, self-hosted services, homelab infrastructure. If you're also going down this road, maybe my wrong turns save you some time.
+**Linux journey.** I try to live in the terminal and succeed... mostly. Distro experiments, shell scripting, self-hosted services, homelab infrastructure. All of it. If you're also going down this road, maybe my wrong turns save you some time.
 
-**Problem-solving documentation.** The posts I wish had existed when I was three hours into a search. Edge cases, undocumented behavior, "why does this only happen on *my* machine" situations. Written down so I don't have to solve them twice.
+**Problem-solving documentation.** The posts I wish had existed when I was three hours into a search. Edge cases, undocumented behavior, "why does this only happen on *my* machine" situations. Written down so I don't have to solve them twice. To be fair, I usually caused the problem for myself.
 
 **Tech thinking.** Occasionally I just need to write through an idea: a tool I've been using, a workflow I changed, something I was wrong about. Not everything here is a tutorial.
 
@@ -44,6 +44,6 @@ Quality over posting schedule. I'd rather write one useful thing than ten things
 
 ---
 
-Thanks for being here. You can find me on [GitHub](https://github.com/jtcarrasco) and [LinkedIn](https://linkedin.com/in/jtcarrasco). Come say hi.
+Thanks for being here. You can find me on [GitHub](https://github.com/jtcarrasco), [Bluesky](https://bsky.app/profile/jtcarrasco.bsky.social), or [LinkedIn](https://linkedin.com/in/jtcarrasco). Come say hi. This is meant to be a conversation, not a broadcast.
 
 — Jason
