@@ -36,7 +36,7 @@ We created several key files:
 
 **tags.md** - Tag taxonomy and management. Sounds boring, but having consistent tagging from the start matters.
 
-**design.md** - Design customization specs, including my Cobalt2 color scheme choices and typography system.
+**design.md** - Design customization specs, including my Cosmik Pulp color scheme choices and typography system.
 
 This might seem like overkill for a personal blog, but here's what I learned: having these files means I don't have to remember everything. Future me (and Claude, in future sessions) can reference these documents to understand decisions, maintain consistency, and pick up where we left off.
 
@@ -44,9 +44,9 @@ This might seem like overkill for a personal blog, but here's what I learned: ha
 
 Working with AI on this project wasn't about just asking for code and copying it. It was more of a conversation. Here's how it typically went:
 
-**Me:** "I want to use the Chirpy theme and customize it with Cobalt2 colors."
+**Me:** "I want to use the Chirpy theme and customize it with Cosmik Pulp colors."
 
-**Claude:** "Here's how Chirpy's structure works, here are the files you'll need to modify, and here's the CSS for Cobalt2 colors. Should we create a design.md file to document this?"
+**Claude:** "Here's how Chirpy's structure works, here are the files you'll need to modify, and here's the CSS for Cosmik Pulp colors. Should we create a design.md file to document this?"
 
 **Me:** "Yes, and let's add a checklist for testing the changes."
 
@@ -89,7 +89,7 @@ If you're thinking about using AI to help build a Jekyll site (or any static sit
 
 **Start with structure**: Before generating content or code, establish your documentation system. It pays dividends immediately.
 
-**Be specific**: "Make me a blog" gets you generic results. "Create a Jekyll blog with Chirpy theme, Cobalt2 colors, focused on maker projects and Linux" gets you something useful.
+**Be specific**: "Make me a blog" gets you generic results. "Create a Jekyll blog with Chirpy theme, Cosmik Pulp colors, focused on maker projects and Linux" gets you something useful.
 
 **Iterate openly**: If something isn't right, say so. AI responds well to "that's close, but let's adjust X" or "I like option 2 better than option 1."
 

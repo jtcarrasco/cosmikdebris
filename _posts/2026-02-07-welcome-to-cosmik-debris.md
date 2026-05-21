@@ -4,7 +4,7 @@ date: 2026-02-07 12:00:00 -0800
 categories: [Meta, Welcome]
 tags: [introduction, about, maker, linux]
 author: jason
-pin: true
+pin: false
 image:
   path: /assets/img/posts/welcome-to-cosmikdebris.jpg
   alt: Cosmik Debris logo

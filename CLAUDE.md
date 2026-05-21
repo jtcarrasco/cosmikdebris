@@ -36,7 +36,7 @@ bundle exec htmlproofer _site --disable-external \
 The site uses a **gem-based Chirpy theme** — theme files live in the gem (vendor/bundle), and local files override them:
 
 - `_sass/themes/_dark.scss` / `_light.scss` — Cobalt2 color scheme overrides
-- `_includes/head.html` — Custom Google Fonts injection (Fira Sans, Lora, Fira Mono)
+- `_includes/head.html` — Custom Google Fonts injection (Exo 2, Inconsolata)
 - `assets/css/jekyll-theme-chirpy.scss` — Main stylesheet entry point
 - `assets/lib/` — Static assets via git submodule (chirpy-static-assets)
 
@@ -65,13 +65,14 @@ image:
 
 ## Design System
 
-**Cobalt2 dark theme** with these key colors:
-- Background: `#193549` / Secondary: `#122a3a`
-- Accent yellow: `#ffc600`
-- Links: `#0088ff`
-- Text: `#ffffff`
+**Cosmik Pulp dark theme** with these key colors:
+- Background: `#1a1c1d` / Sidebar: `#141617`
+- Text: `#d1c9bd` / Muted: `#8a857e`
+- Orange/accent: `#d9573d` (sidebar active, TOC highlight, avatar border)
+- Teal: `#5db8c8` (links, code, search)
+- Mustard: `#d9ad46` (warnings, filepath, numbers)
 
-**Fonts**: Fira Sans (body), Lora (headings), Fira Mono (code) — loaded via Google Fonts in `_includes/head.html`.
+**Fonts**: Exo 2 (headings), Inconsolata (body + code) — loaded via Google Fonts in `_includes/head.html`. Variables in `assets/css/jekyll-theme-chirpy.scss`: `$font-body`, `$font-heading`, `$font-code`.
 
 ## Deployment
 
