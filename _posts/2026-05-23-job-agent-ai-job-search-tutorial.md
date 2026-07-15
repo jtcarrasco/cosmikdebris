@@ -6,7 +6,7 @@ tags: [ai, claude, automation, job-search, homelab, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/job-search-agent.jpg
+  path: /assets/img/posts/job-search-agent.webp
   alt: AI job search agent with Claude Code
 ---
 

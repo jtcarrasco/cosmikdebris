@@ -6,7 +6,7 @@ tags: [email, automation, n8n, gmail, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/email-organization-hub.jpg
+  path: /assets/img/posts/email-organization-hub.webp
   alt: Gmail hub with automatic labeling and n8n briefings
 ---
 

@@ -6,7 +6,7 @@ tags: [homelab, self-hosting, vps, tailscale, docker, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/vps-homelab-tutorial.jpg
+  path: /assets/img/posts/vps-homelab-tutorial.webp
   alt: VPS homelab with Tailscale and Docker
 ---
 

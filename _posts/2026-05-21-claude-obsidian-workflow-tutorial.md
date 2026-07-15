@@ -6,7 +6,7 @@ tags: [ai, claude, obsidian, pkm, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/claude-obsidian-workflow.jpg
+  path: /assets/img/posts/claude-obsidian-workflow.webp
   alt: Claude Code and Obsidian workflow
 ---
 
