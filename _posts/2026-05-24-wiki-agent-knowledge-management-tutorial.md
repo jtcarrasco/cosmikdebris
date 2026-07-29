@@ -6,7 +6,7 @@ tags: [ai, claude, knowledge-management, obsidian, tutorial]
 author: jason
 pin: false
 image:
-  path: /assets/img/posts/wiki-agent-knowledge-management.jpg
+  path: /assets/img/posts/wiki-agent-knowledge-manager.webp
   alt: AI wiki agent for knowledge management with Obsidian
 ---
 
